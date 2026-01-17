@@ -30,7 +30,7 @@ This integration is not yet in the default HACS repository, so you need to add i
     *   **Category:** `Integration`
     *   Click **Add**.
 
-    <!-- [Screenshot: HACS Custom Repository Dialog] -->
+<img width="1920" height="927" alt="Screenshot 2026-01-17 at 03-42-46 HACS – Home Assistant" src="https://github.com/user-attachments/assets/d07bf8e0-fc20-4728-8894-04dd346be7ad" />
 
 3.  **Download:**
     *   The "BinDays" integration should now appear or be searchable.
@@ -49,17 +49,23 @@ This integration is not yet in the default HACS repository, so you need to add i
 2.  Click **Add Integration** in the bottom right.
 3.  Search for **BinDays**.
 
-    <!-- [Screenshot: Add Integration Search] -->
+<img width="1920" height="927" alt="Screenshot 2026-01-17 at 03-44-30 Settings – Home Assistant" src="https://github.com/user-attachments/assets/f5cac10d-8ed7-431e-86d1-4a6936483bc2" />
 
 4.  **Step 1:** Enter your **Postcode**.
 
-    <!-- [Screenshot: Postcode Entry] -->
+<img width="1920" height="927" alt="Screenshot 2026-01-17 at 05-28-28 Settings – Home Assistant" src="https://github.com/user-attachments/assets/6ed61d8d-5a24-43e4-b837-a0feac27e26e" />
 
 5.  **Step 2:** Select your **Address** from the list.
 
-    <!-- [Screenshot: Address Selection] -->
+<img width="1920" height="927" alt="Screenshot 2026-01-17 at 05-28-37 Settings – Home Assistant" src="https://github.com/user-attachments/assets/374190ce-ee3b-493b-8576-5051abdada4f" />
 
-6.  The integration will create a sensor (e.g., `sensor.next_collection`).
+6.  The integration will create a sensor (e.g. `sensor.next_collection`).
+
+<img width="1920" height="927" alt="Screenshot 2026-01-17 at 05-28-43 Settings – Home Assistant" src="https://github.com/user-attachments/assets/2fa6e331-7e08-4973-b4ee-00303c0f0879" />
+
+<img width="1920" height="927" alt="Screenshot 2026-01-17 at 05-28-57 Settings – Home Assistant" src="https://github.com/user-attachments/assets/44896752-3b4a-4bae-b402-9921b6f72613" />
+
+<img width="1920" height="927" alt="Screenshot 2026-01-17 at 05-28-50 Settings – Home Assistant" src="https://github.com/user-attachments/assets/e8c07ca0-b7e4-4089-a3fc-9e43be323ee4" />
 
 ## Usage
 
@@ -68,8 +74,8 @@ The primary entity is `sensor.next_collection` (or similar, based on your addres
 **State:** The date of the next collection (YYYY-MM-DD).
 
 **Attributes:**
-*   `bins`: List of bin names (e.g., `["General Waste", "Recycling"]`).
-*   `colours`: List of bin colours (e.g., `["Black", "Green"]`).
+*   `bins`: List of bin names (e.g. `["General Waste", "Recycling"]`).
+*   `colours`: List of bin colours (e.g. `["Black", "Green"]`).
 *   `raw_bins`: Detailed list of dictionaries.
 
 ### Example Dashboard Card
