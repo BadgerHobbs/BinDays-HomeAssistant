@@ -1,0 +1,26 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Enter Postcode",
+        "data": {
+          "postcode": "Postcode"
+        }
+      },
+      "address": {
+        "title": "Select Address",
+        "data": {
+          "address_id": "Address"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect",
+      "no_addresses_found": "No addresses found for this postcode",
+      "unknown": "Unexpected error"
+    },
+    "abort": {
+      "already_configured": "Device is already configured"
+    }
+  }
+}

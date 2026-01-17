@@ -1,0 +1,11 @@
+{
+  "domain": "bindays",
+  "name": "BinDays",
+  "codeowners": ["@BadgerHobbs"],
+  "config_flow": true,
+  "documentation": "https://github.com/BadgerHobbs/BinDays-HomeAssistant",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/BadgerHobbs/BinDays-HomeAssistant/issues",
+  "requirements": [],
+  "version": "1.0.0"
+}
