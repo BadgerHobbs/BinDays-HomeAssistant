@@ -36,6 +36,8 @@ This integration is not yet in the default HACS repository, so you need to add i
     *   The "BinDays" integration should now appear or be searchable.
     *   Click **Download**.
     *   Restart Home Assistant.
+  
+<img width="1920" height="927" alt="Screenshot 2026-01-17 at 03-43-07 HACS – Home Assistant" src="https://github.com/user-attachments/assets/93e5a64a-dab9-4cc3-b98b-72a8f39ac05b" />
 
 ### Method 2: Manual Installation
 
