@@ -80,13 +80,16 @@ The primary entity is `sensor.next_collection` (or similar, based on your addres
 
 ### Example Dashboard Card
 
+<img width="490" height="144" alt="image" src="https://github.com/user-attachments/assets/afb73cb7-08d2-416b-b586-6a34db176f0f" />
+
 ```yaml
 type: markdown
 content: >
   **Next Collection:** {{ states('sensor.next_collection') }}
-  
+  <br/>
+  <br/>
   **Bins:**
-  {% for bin in state_attr('sensor.next_collection', 'bins') %}
-  - {{ bin }}
+  {% for raw_bin in state_attr('sensor.next_collection', 'raw_bins') %}
+  <br/>- {{ raw_bin['name'] }} ({{ raw_bin['colour'] }})
   {% endfor %}
 ```
