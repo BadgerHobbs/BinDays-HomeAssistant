@@ -49,6 +49,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self.postcode: Optional[str] = None
         self.collector: Optional[Collector] = None
         self.addresses: Optional[List[Address]] = None
+        self.all_collectors: Optional[List[Collector]] = None
 
     async def async_step_user(
         self, user_input: Optional[Dict[str, Any]] = None
@@ -66,18 +67,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             try:
                 # 1. Get Collector
                 self.collector = await self.api.get_collector(self.postcode)
-
-                # 2. Get Addresses
-                self.addresses = await self.api.get_addresses(
-                    self.collector, self.postcode
-                )
-
-                if not self.addresses:
-                    errors["base"] = "no_addresses_found"
-                else:
-                    # Sort addresses by their human-readable representation
-                    self.addresses.sort(key=lambda addr: str(addr))
-                    return await self.async_step_address()
+                return await self.async_step_confirm_collector()
 
             except BinDaysApiClientError as err:
                 if err.status == 400:
@@ -96,6 +86,76 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         return self.async_show_form(
             step_id="user", data_schema=STEP_USER_DATA_SCHEMA, errors=errors
         )
+
+    async def async_step_confirm_collector(
+        self, user_input: Optional[Dict[str, Any]] = None
+    ) -> FlowResult:
+        """
+        Confirm the detected collector.
+        """
+        if user_input is not None:
+            if user_input.get("is_correct"):
+                return await self._async_fetch_addresses()
+            return await self.async_step_select_collector()
+
+        return self.async_show_form(
+            step_id="confirm_collector",
+            description_placeholders={"collector_name": self.collector.name},
+            data_schema=vol.Schema({vol.Required("is_correct", default=True): bool}),
+        )
+
+    async def async_step_select_collector(
+        self, user_input: Optional[Dict[str, Any]] = None
+    ) -> FlowResult:
+        """
+        Manually select a collector.
+        """
+        errors: Dict[str, str] = {}
+
+        if self.all_collectors is None:
+            try:
+                self.all_collectors = await self.api.get_collectors()
+                self.all_collectors.sort(key=lambda c: c.name)
+            except BinDaysApiClientError:
+                errors["base"] = "cannot_connect"
+                return self.async_show_form(step_id="user", errors=errors)
+
+        collector_options = {c.gov_uk_id: c.name for c in self.all_collectors}
+
+        if user_input is not None:
+            selected_id = user_input[CONF_COLLECTOR_ID]
+            self.collector = next(
+                c for c in self.all_collectors if c.gov_uk_id == selected_id
+            )
+            return await self._async_fetch_addresses()
+
+        return self.async_show_form(
+            step_id="select_collector",
+            data_schema=vol.Schema(
+                {vol.Required(CONF_COLLECTOR_ID): vol.In(collector_options)}
+            ),
+            errors=errors,
+        )
+
+    async def _async_fetch_addresses(self) -> FlowResult:
+        """
+        Helper to fetch addresses once collector is finalized.
+        """
+        errors: Dict[str, str] = {}
+        try:
+            self.addresses = await self.api.get_addresses(self.collector, self.postcode)
+
+            if not self.addresses:
+                errors["base"] = "no_addresses_found"
+                return self.async_show_form(step_id="user", errors=errors)
+
+            # Sort addresses by their human-readable representation
+            self.addresses.sort(key=lambda addr: str(addr))
+            return await self.async_step_address()
+
+        except BinDaysApiClientError:
+            errors["base"] = "cannot_connect"
+            return self.async_show_form(step_id="user", errors=errors)
 
     async def async_step_address(
         self, user_input: Optional[Dict[str, Any]] = None

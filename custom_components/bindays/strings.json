@@ -7,6 +7,20 @@
           "postcode": "Postcode"
         }
       },
+      "confirm_collector": {
+        "title": "Confirm Council",
+        "description": "We've matched your postcode to **{collector_name}**. Is this correct?",
+        "data": {
+          "is_correct": "This is my local council"
+        }
+      },
+      "select_collector": {
+        "title": "Select Council",
+        "description": "Please select your local council from the list below.",
+        "data": {
+          "collector_id": "Council"
+        }
+      },
       "address": {
         "title": "Select Address",
         "description": "Found multiple addresses for this postcode. Please select yours.",

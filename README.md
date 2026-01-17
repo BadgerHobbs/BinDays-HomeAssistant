@@ -3,20 +3,20 @@
 [![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
 [![BinDays](https://img.shields.io/badge/Powered%20by-BinDays-blue)](https://bindays.app)
 
-This custom component integrates **[BinDays](https://bindays.app)** into Home Assistant, allowing you to track your bin collection schedules.
+This custom component integrates **[BinDays](https://bindays.app)** into Home Assistant, allowing you to track your bin collection schedules directly from your dashboard.
 
 ## Features
 
-*   **Next Collection Sensor:** Shows the date of the next bin collection.
-*   **Attributes:** Provides details on which bins (and their colours) are being collected.
-*   **Config Flow:** Easy setup via the Home Assistant UI (Postcode search -> Address selection).
-*   **Robust Handling:** Supports complex council website interactions via the BinDays API.
+*   **Next Collection Sensor:** Shows the date of the upcoming bin collection.
+*   **Detailed Attributes:** Provides specific bin names, their colours, and raw collection data.
+*   **Smart Config Flow:** Simple setup via the Home Assistant UI with automatic council detection and confirmation.
+*   **Manual Override:** Option to manually select your council if the automatic matching is incorrect.
+*   **Alphabetical Sorting:** Easy address selection from a sorted property list.
+*   **Robust Error Guidance:** Helpful instructions and links if your postcode or council is not yet supported.
 
 ## Installation
 
 ### Method 1: HACS (Recommended)
-
-This integration is not yet in the default HACS repository, so you need to add it as a Custom Repository.
 
 1.  **Install HACS:**
     If you haven't already, install HACS by following the official instructions:
@@ -30,14 +30,9 @@ This integration is not yet in the default HACS repository, so you need to add i
     *   **Category:** `Integration`
     *   Click **Add**.
 
-<img width="1920" height="927" alt="Screenshot 2026-01-17 at 03-42-46 HACS – Home Assistant" src="https://github.com/user-attachments/assets/d07bf8e0-fc20-4728-8894-04dd346be7ad" />
-
 3.  **Download:**
-    *   The "BinDays" integration should now appear or be searchable.
-    *   Click **Download**.
+    *   Search for "BinDays" and click **Download**.
     *   Restart Home Assistant.
-  
-<img width="1920" height="927" alt="Screenshot 2026-01-17 at 03-43-07 HACS – Home Assistant" src="https://github.com/user-attachments/assets/93e5a64a-dab9-4cc3-b98b-72a8f39ac05b" />
 
 ### Method 2: Manual Installation
 
@@ -48,24 +43,11 @@ This integration is not yet in the default HACS repository, so you need to add i
 ## Configuration
 
 1.  Go to **Settings** > **Devices & Services**.
-2.  Click **Add Integration** in the bottom right.
-3.  Search for **BinDays**.
-
-<img width="1920" height="927" alt="Screenshot 2026-01-17 at 03-44-30 Settings – Home Assistant" src="https://github.com/user-attachments/assets/f5cac10d-8ed7-431e-86d1-4a6936483bc2" />
-
-4.  **Step 1:** Enter your **Postcode**.
-
-<img width="1920" height="927" alt="Screenshot 2026-01-17 at 05-28-28 Settings – Home Assistant" src="https://github.com/user-attachments/assets/6ed61d8d-5a24-43e4-b837-a0feac27e26e" />
-
-5.  **Step 2:** Select your **Address** from the list.
-
-<img width="1920" height="927" alt="Screenshot 2026-01-17 at 05-28-37 Settings – Home Assistant" src="https://github.com/user-attachments/assets/374190ce-ee3b-493b-8576-5051abdada4f" />
-
+2.  Click **Add Integration** and search for **BinDays**.
+3.  **Step 1:** Enter your **Postcode**.
+4.  **Step 2:** **Confirm your Council**. The integration will automatically detect your local authority. If it's incorrect, you can select "No" to choose from a full list of supported councils.
+5.  **Step 3:** Select your **Address** from the alphabetically sorted list.
 6.  The integration will create a sensor (e.g. `sensor.next_collection`).
-
-<img width="1920" height="927" alt="Screenshot 2026-01-17 at 05-28-43 Settings – Home Assistant" src="https://github.com/user-attachments/assets/2fa6e331-7e08-4973-b4ee-00303c0f0879" />
-
-<img width="1920" height="927" alt="Screenshot 2026-01-17 at 05-28-57 Settings – Home Assistant" src="https://github.com/user-attachments/assets/44896752-3b4a-4bae-b402-9921b6f72613" />
 
 ## Usage
 
@@ -78,9 +60,10 @@ The primary entity is `sensor.next_collection` (or similar, based on your addres
 *   `colours`: List of bin colours (e.g. `["Black", "Green"]`).
 *   `raw_bins`: Detailed list of dictionaries.
 
-### Example Dashboard Card
+### Data Refresh
+The integration automatically refreshes your bin collection data every **12 hours**.
 
-<img width="490" height="144" alt="image" src="https://github.com/user-attachments/assets/afb73cb7-08d2-416b-b586-6a34db176f0f" />
+### Example Dashboard Card
 
 ```yaml
 type: markdown
@@ -93,3 +76,11 @@ content: >
   <br/>- {{ raw_bin['name'] }} ({{ raw_bin['colour'] }})
   {% endfor %}
 ```
+
+## Troubleshooting
+
+If you encounter issues during setup or data retrieval:
+
+*   **Unsupported Council**: If your council is not yet supported, please request support by opening an issue at [BinDays-API Issues](https://github.com/BadgerHobbs/BinDays-API/issues).
+*   **Incorrect Address Data**: Report specific council or address lookup issues at [BinDays-API Issues](https://github.com/BadgerHobbs/BinDays-API/issues).
+*   **Integration Crashes**: For issues specific to the Home Assistant integration (connection failures, sensor errors), please report them at [BinDays-HomeAssistant Issues](https://github.com/BadgerHobbs/BinDays-HomeAssistant/issues).
