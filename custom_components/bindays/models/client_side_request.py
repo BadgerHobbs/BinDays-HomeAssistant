@@ -15,7 +15,7 @@ class ClientSideRequest(BaseModel):
     Pydantic data model for a ClientSideRequest.
     """
 
-    request_id: str = Field(alias="requestId", description="Unique ID for this request")
+    request_id: int = Field(alias="requestId", description="Unique ID for this request")
     """Unique ID for this request."""
 
     url: str = Field(description="The URL to request")

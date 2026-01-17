@@ -38,6 +38,14 @@ class BinDaysApiClient:
         self._session = session
         self._base_url = base_url.rstrip("/")
 
+        # Internal session for client-side requests that should be stateless (no automatic cookie handling)
+        # We reuse the connector from the provided session to benefit from connection pooling
+        self._client_side_session = aiohttp.ClientSession(
+            connector=session.connector,
+            connector_owner=False,
+            cookie_jar=aiohttp.DummyCookieJar(),
+        )
+
     async def get_collectors(self) -> List[Collector]:
         """
         Retrieves a list of all Collectors.
@@ -50,10 +58,10 @@ class BinDaysApiClient:
                 data = await response.json()
                 return [Collector(**c) for c in data]
         except aiohttp.ClientError as e:
-            _LOGGER.error("Failed to fetch collectors: %s", e)
+            _LOGGER.debug("Failed to fetch collectors: %s", e)
             raise BinDaysApiClientError(f"Network error fetching collectors: {e}") from e
         except ValidationError as e:
-            _LOGGER.error("Failed to parse collectors: %s", e)
+            _LOGGER.debug("Failed to parse collectors: %s", e)
             raise BinDaysApiClientError(
                 f"Data validation error for collectors: {e}"
             ) from e
@@ -67,8 +75,8 @@ class BinDaysApiClient:
         return await self._fetch_data(
             url=url,
             params={"postcode": postcode},
-            data_extractor=lambda json: Collector(**json["collector"])
-            if json.get("collector")
+            data_extractor=lambda json_data: Collector(**json_data["collector"])
+            if json_data.get("collector")
             else None,
             error_message=f"No collector found for postcode '{postcode}'.",
         )
@@ -82,8 +90,10 @@ class BinDaysApiClient:
         return await self._fetch_data(
             url=url,
             params={"postcode": postcode},
-            data_extractor=lambda json: [Address(**a) for a in json["addresses"]]
-            if json.get("addresses")
+            data_extractor=lambda json_data: [
+                Address(**a) for a in json_data["addresses"]
+            ]
+            if json_data.get("addresses")
             else None,
             error_message=f"No addresses found for postcode '{postcode}'.",
         )
@@ -100,8 +110,8 @@ class BinDaysApiClient:
         return await self._fetch_data(
             url=url,
             params={"postcode": address.postcode, "uid": address.uid},
-            data_extractor=lambda json: [BinDay(**b) for b in json["binDays"]]
-            if json.get("binDays")
+            data_extractor=lambda json_data: [BinDay(**b) for b in json_data["binDays"]]
+            if json_data.get("binDays")
             else None,
             error_message=f"No bin days found for collector '{collector.name}' and address '{address_string}'.",
         )
@@ -130,12 +140,17 @@ class BinDaysApiClient:
                     url,
                     params=params,
                     json=request_body,
-                    headers={"Content-Type": "application/json"},
                 ) as response:
-                    response.raise_for_status()
+                    if not response.ok:
+                        text = await response.text()
+                        _LOGGER.debug("API Error %s: %s", response.status, text)
+                        raise BinDaysApiClientError(
+                            f"API returned {response.status}: {text}"
+                        )
+
                     data = await response.json()
             except aiohttp.ClientError as e:
-                _LOGGER.error("API request failed: %s", e)
+                _LOGGER.debug("API request failed: %s", e)
                 raise BinDaysApiClientError(f"API request failed: {e}") from e
 
             # Try to extract the final data
@@ -144,7 +159,7 @@ class BinDaysApiClient:
                 if extracted_data is not None:
                     return extracted_data
             except ValidationError as e:
-                _LOGGER.error("Data validation error: %s", e)
+                _LOGGER.debug("Data validation error: %s", e)
                 raise BinDaysApiClientError(f"Failed to parse response: {e}") from e
 
             # If no data, check if there's a next step
@@ -158,7 +173,7 @@ class BinDaysApiClient:
                     )
                     # Continue the loop
                 except ValidationError as e:
-                    _LOGGER.error("Failed to parse next client side request: %s", e)
+                    _LOGGER.debug("Failed to parse next client side request: %s", e)
                     raise BinDaysApiClientError(
                         f"Invalid client side request received: {e}"
                     ) from e
@@ -174,12 +189,10 @@ class BinDaysApiClient:
         """
         Sends a client-side request as instructed by the main API.
         """
-        _LOGGER.debug(
-            "Executing client-side request: %s %s", request.method, request.url
-        )
+        _LOGGER.debug("Executing client-side request: %s %s", request.method, request.url)
 
         try:
-            async with self._session.request(
+            async with self._client_side_session.request(
                 method=request.method,
                 url=request.url,
                 headers=request.headers,
@@ -189,13 +202,14 @@ class BinDaysApiClient:
 
                 content = await response.text()
 
-                # Flatten headers
+                # Extract headers and normalize keys to lowercase
                 headers_dict = {}
                 for k, v in response.headers.items():
-                    if k in headers_dict:
-                        headers_dict[k] = f"{headers_dict[k]},{v}"
+                    key = k.lower()
+                    if key in headers_dict:
+                        headers_dict[key] = f"{headers_dict[key]},{v}"
                     else:
-                        headers_dict[k] = v
+                        headers_dict[key] = v
 
                 return ClientSideResponse(
                     requestId=request.request_id,
@@ -207,5 +221,5 @@ class BinDaysApiClient:
                 )
 
         except Exception as e:
-            _LOGGER.error("Client side request execution failed: %s", e)
+            _LOGGER.debug("Client side request execution failed: %s", e)
             raise BinDaysApiClientError(f"Client side request failed: {e}") from e

@@ -15,7 +15,7 @@ class ClientSideResponse(BaseModel):
     Pydantic data model for a ClientSideResponse.
     """
 
-    request_id: str = Field(alias="requestId", description="ID of the original request")
+    request_id: int = Field(alias="requestId", description="ID of the original request")
     """ID of the original request."""
 
     status_code: int = Field(alias="statusCode", description="HTTP status code received")
