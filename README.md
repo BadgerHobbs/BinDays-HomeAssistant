@@ -97,6 +97,16 @@ If you encounter issues during setup or data retrieval:
 *   **Incorrect Address Data**: Report specific council or address lookup issues at [BinDays-API Issues](https://github.com/BadgerHobbs/BinDays-API/issues).
 *   **Integration Crashes**: For issues specific to the Home Assistant integration (connection failures, sensor errors), please report them at [BinDays-HomeAssistant Issues](https://github.com/BadgerHobbs/BinDays-HomeAssistant/issues).
 
+## License
+
+This project is licensed under the [GPLv3 License](LICENSE).
+
+## Support
+
+If you find this project helpful, please consider supporting its development.
+
+[![Buy Me A Coffee](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=&slug=badgerhobbs&button_colour=FFDD00&font_colour=000000&font_family=Poppins&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/badgerhobbs)
+
 ## Screenshots
 
 ### Postcode Input
