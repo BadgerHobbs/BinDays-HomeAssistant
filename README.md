@@ -67,8 +67,6 @@ This integration is not yet in the default HACS repository, so you need to add i
 
 <img width="1920" height="927" alt="Screenshot 2026-01-17 at 05-28-57 Settings – Home Assistant" src="https://github.com/user-attachments/assets/44896752-3b4a-4bae-b402-9921b6f72613" />
 
-<img width="1920" height="927" alt="Screenshot 2026-01-17 at 05-28-50 Settings – Home Assistant" src="https://github.com/user-attachments/assets/e8c07ca0-b7e4-4089-a3fc-9e43be323ee4" />
-
 ## Usage
 
 The primary entity is `sensor.next_collection` (or similar, based on your address).
