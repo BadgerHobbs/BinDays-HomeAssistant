@@ -77,8 +77,16 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 else:
                     return await self.async_step_address()
 
-            except BinDaysApiClientError:
-                errors["base"] = "cannot_connect"
+            except BinDaysApiClientError as err:
+                if err.status == 400:
+                    errors["base"] = "invalid_postcode"
+                elif err.status == 404:
+                    if "not currently supported" in (err.data or ""):
+                        errors["base"] = "unsupported_council"
+                    else:
+                        errors["base"] = "no_collector_found"
+                else:
+                    errors["base"] = "cannot_connect"
             except Exception:  # pylint: disable=broad-except
                 _LOGGER.exception("Unexpected exception")
                 errors["base"] = "unknown"

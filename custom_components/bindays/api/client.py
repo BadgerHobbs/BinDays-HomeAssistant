@@ -145,7 +145,9 @@ class BinDaysApiClient:
                         text = await response.text()
                         _LOGGER.debug("API Error %s: %s", response.status, text)
                         raise BinDaysApiClientError(
-                            f"API returned {response.status}: {text}"
+                            f"API returned {response.status}: {text}",
+                            status=response.status,
+                            data=text,
                         )
 
                     data = await response.json()

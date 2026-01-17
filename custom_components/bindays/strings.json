@@ -9,18 +9,22 @@
       },
       "address": {
         "title": "Select Address",
+        "description": "Found multiple addresses for this postcode. Please select yours.",
         "data": {
           "address_id": "Address"
         }
       }
     },
     "error": {
-      "cannot_connect": "Failed to connect",
-      "no_addresses_found": "No addresses found for this postcode",
-      "unknown": "Unexpected error"
+      "cannot_connect": "Failed to connect to the BinDays API. If this persists, please check the integration status or report an issue on GitHub: https://github.com/BadgerHobbs/BinDays-HomeAssistant/issues",
+      "no_addresses_found": "We matched your postcode but couldn't find any addresses. Please report this council issue at https://github.com/BadgerHobbs/BinDays-API/issues",
+      "invalid_postcode": "The supplied postcode is invalid. Please double check and try again.",
+      "unsupported_council": "Your local council is not currently supported by BinDays. You can request support by opening an issue at https://github.com/BadgerHobbs/BinDays-API/issues",
+      "no_collector_found": "No waste collector could be found for this postcode. Please check the postcode is correct or report it at https://github.com/BadgerHobbs/BinDays-API/issues",
+      "unknown": "An unexpected error occurred. Please check the logs or report an issue at https://github.com/BadgerHobbs/BinDays-HomeAssistant/issues"
     },
     "abort": {
-      "already_configured": "Device is already configured"
+      "already_configured": "This address is already configured."
     }
   }
 }
