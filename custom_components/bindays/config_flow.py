@@ -75,6 +75,8 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 if not self.addresses:
                     errors["base"] = "no_addresses_found"
                 else:
+                    # Sort addresses by their human-readable representation
+                    self.addresses.sort(key=lambda addr: str(addr))
                     return await self.async_step_address()
 
             except BinDaysApiClientError as err:
