@@ -68,7 +68,7 @@ class BinDaysApiClient:
             url=url,
             params={"postcode": postcode},
             data_extractor=lambda json: Collector(**json["collector"])
-            if "collector" in json
+            if json.get("collector")
             else None,
             error_message=f"No collector found for postcode '{postcode}'.",
         )
@@ -83,7 +83,7 @@ class BinDaysApiClient:
             url=url,
             params={"postcode": postcode},
             data_extractor=lambda json: [Address(**a) for a in json["addresses"]]
-            if "addresses" in json
+            if json.get("addresses")
             else None,
             error_message=f"No addresses found for postcode '{postcode}'.",
         )
@@ -101,7 +101,7 @@ class BinDaysApiClient:
             url=url,
             params={"postcode": address.postcode, "uid": address.uid},
             data_extractor=lambda json: [BinDay(**b) for b in json["binDays"]]
-            if "binDays" in json
+            if json.get("binDays")
             else None,
             error_message=f"No bin days found for collector '{collector.name}' and address '{address_string}'.",
         )
