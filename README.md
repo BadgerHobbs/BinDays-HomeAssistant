@@ -1,9 +1,21 @@
 # BinDays Home Assistant Integration
 
-[![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
-[![BinDays](https://img.shields.io/badge/Powered%20by-BinDays-blue)](https://bindays.app)
+[![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
-This custom component integrates **[BinDays](https://bindays.app)** into Home Assistant, allowing you to track your bin collection schedules directly from your dashboard.
+![d2(14)](https://github.com/user-attachments/assets/02f11389-cc57-4a16-99d3-3209642e0d69)
+
+<p align="center">
+  <a href="https://github.com/BadgerHobbs/BinDays-App">BinDays-App</a> •
+  <a href="https://github.com/BadgerHobbs/BinDays-Client">BinDays-Client</a> •
+  <a href="https://github.com/BadgerHobbs/BinDays-API">BinDays-API</a> •
+  <a href="https://github.com/BadgerHobbs/BinDays-HomeAssistant">BinDays-HomeAssistant</a>
+</p>
+
+> **Council-related issue?** For problems with a specific council's bin collection data or to request a new council, please open an issue in the [**BinDays-API repository**](https://github.com/BadgerHobbs/BinDays-API/issues).
+
+## Overview
+
+This is the repository for the BinDays Home Assistant integration, fetching your bin collection data from supported councils via the [BinDays-API](https://github.com/BadgerHobbs/BinDays-API).
 
 ## Features
 
