@@ -40,10 +40,12 @@ class BinDaysApiClient:
 
         # Internal session for client-side requests that should be stateless (no automatic cookie handling)
         # We reuse the connector from the provided session to benefit from connection pooling
+        # Disable Brotli compression to avoid aiohttp bugs with br encoding
         self._client_side_session = aiohttp.ClientSession(
             connector=session.connector,
             connector_owner=False,
             cookie_jar=aiohttp.DummyCookieJar(),
+            headers={"Accept-Encoding": "gzip, deflate"},
         )
 
     async def get_collectors(self) -> List[Collector]:
@@ -193,11 +195,23 @@ class BinDaysApiClient:
         """
         _LOGGER.debug("Executing client-side request: %s %s", request.method, request.url)
 
+        # Prepare headers
+        headers_to_send = dict(request.headers) if request.headers else {}
+
+        # If body is present and looks like JSON, ensure Content-Type is set
+        # This matches the behavior of the C# IntegrationTestClient
+        if request.body and not any(k.lower() == "content-type" for k in headers_to_send):
+            body_stripped = request.body.strip()
+            if (body_stripped.startswith("{") and body_stripped.endswith("}")) or \
+               (body_stripped.startswith("[") and body_stripped.endswith("]")):
+                if request.method.upper() == "POST":
+                    headers_to_send["Content-Type"] = "application/json"
+
         try:
             async with self._client_side_session.request(
                 method=request.method,
                 url=request.url,
-                headers=request.headers,
+                headers=headers_to_send,
                 data=request.body,
                 allow_redirects=request.options.follow_redirects,
             ) as response:
