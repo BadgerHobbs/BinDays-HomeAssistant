@@ -1,4 +1,4 @@
-# BinDays Home Assistant Integration
+# BinDays-HomeAssistant
 
 [![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
