@@ -19,13 +19,13 @@ This is the repository for the BinDays Home Assistant integration, fetching your
 
 ## Features
 
-*   **Next Collection Sensor:** Shows the date of the upcoming bin collection.
-*   **Collection Schedule Sensor:** Provides a full list of all upcoming bin collection dates and their associated bins.
-*   **Detailed Attributes:** Provides specific bin names, their colours, and raw collection data.
-*   **Smart Config Flow:** Simple setup via the Home Assistant UI with automatic council detection and confirmation.
-*   **Manual Override:** Option to manually select your council if the automatic matching is incorrect.
-*   **Alphabetical Sorting:** Easy address selection from a sorted property list.
-*   **Robust Error Guidance:** Helpful instructions and links if your postcode or council is not yet supported.
+- **Next Collection Sensor:** Shows the date of the upcoming bin collection.
+- **Collection Schedule Sensor:** Provides a full list of all upcoming bin collection dates and their associated bins.
+- **Detailed Attributes:** Provides specific bin names, their colours, and raw collection data.
+- **Smart Config Flow:** Simple setup via the Home Assistant UI with automatic council detection and confirmation.
+- **Manual Override:** Option to manually select your council if the automatic matching is incorrect.
+- **Alphabetical Sorting:** Easy address selection from a sorted property list.
+- **Robust Error Guidance:** Helpful instructions and links if your postcode or council is not yet supported.
 
 ## Installation
 
@@ -36,16 +36,16 @@ This is the repository for the BinDays Home Assistant integration, fetching your
     [Download HACS](https://www.hacs.xyz/docs/use/download/download/)
 
 2.  **Add Custom Repository:**
-    *   Go to HACS in the sidebar.
-    *   Click on **Integrations**.
-    *   Click the 3 dots in the top right corner and select **Custom repositories**.
-    *   **Repository:** `https://github.com/BadgerHobbs/BinDays-HomeAssistant`
-    *   **Category:** `Integration`
-    *   Click **Add**.
+    - Go to HACS in the sidebar.
+    - Click on **Integrations**.
+    - Click the 3 dots in the top right corner and select **Custom repositories**.
+    - **Repository:** `https://github.com/BadgerHobbs/BinDays-HomeAssistant`
+    - **Category:** `Integration`
+    - Click **Add**.
 
 3.  **Download:**
-    *   Search for "BinDays" and click **Download**.
-    *   Restart Home Assistant.
+    - Search for "BinDays" and click **Download**.
+    - Restart Home Assistant.
 
 ### Method 2: Manual Installation
 
@@ -67,27 +67,33 @@ This is the repository for the BinDays Home Assistant integration, fetching your
 The integration provides two main sensors:
 
 ### 1. Next Collection Sensor (`sensor.next_collection`)
+
 **State:** The date of the next collection (YYYY-MM-DD).
 
 **Attributes:**
-*   `bins`: List of bin names (e.g. `["General Waste", "Recycling"]`).
-*   `colours`: List of bin colours (e.g. `["Black", "Green"]`).
-*   `raw_bins`: Detailed list of dictionaries, including `name`, `colour`, `type`, and `keys`.
+
+- `bins`: List of bin names (e.g. `["General Waste", "Recycling"]`).
+- `colours`: List of bin colours (e.g. `["Black", "Green"]`).
+- `raw_bins`: Detailed list of dictionaries, including `name`, `colour`, `type`, and `keys`.
 
 ### 2. Collection Schedule Sensor (`sensor.collection_schedule`)
+
 **State:** The number of upcoming collections currently in the schedule.
 
 **Attributes:**
-*   `upcoming_collections`: A list of upcoming collection events. Each event contains:
-    *   `date`: The ISO formatted date of the collection.
-    *   `bins`: A list of bins for that date (with `name`, `colour`, `type`, and `keys`).
+
+- `upcoming_collections`: A list of upcoming collection events. Each event contains:
+  - `date`: The ISO formatted date of the collection.
+  - `bins`: A list of bins for that date (with `name`, `colour`, `type`, and `keys`).
 
 ### Data Refresh
+
 The integration automatically refreshes your bin collection data every **12 hours**.
 
 ### Example Dashboard Cards
 
 #### Next Collection Summary
+
 ```yaml
 type: markdown
 content: >
@@ -101,6 +107,7 @@ content: >
 ```
 
 #### Full Collection Schedule
+
 ```yaml
 type: markdown
 content: >
@@ -118,9 +125,9 @@ content: >
 
 If you encounter issues during setup or data retrieval:
 
-*   **Unsupported Council**: If your council is not yet supported, please request support by opening an issue at [BinDays-API Issues](https://github.com/BadgerHobbs/BinDays-API/issues).
-*   **Incorrect Address Data**: Report specific council or address lookup issues at [BinDays-API Issues](https://github.com/BadgerHobbs/BinDays-API/issues).
-*   **Integration Crashes**: For issues specific to the Home Assistant integration (connection failures, sensor errors), please report them at [BinDays-HomeAssistant Issues](https://github.com/BadgerHobbs/BinDays-HomeAssistant/issues).
+- **Unsupported Council**: If your council is not yet supported, please request support by opening an issue at [BinDays-API Issues](https://github.com/BadgerHobbs/BinDays-API/issues).
+- **Incorrect Address Data**: Report specific council or address lookup issues at [BinDays-API Issues](https://github.com/BadgerHobbs/BinDays-API/issues).
+- **Integration Crashes**: For issues specific to the Home Assistant integration (connection failures, sensor errors), please report them at [BinDays-HomeAssistant Issues](https://github.com/BadgerHobbs/BinDays-HomeAssistant/issues).
 
 ## License
 
