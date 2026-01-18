@@ -70,7 +70,7 @@ The primary entity is `sensor.next_collection` (or similar, based on your addres
 **Attributes:**
 *   `bins`: List of bin names (e.g. `["General Waste", "Recycling"]`).
 *   `colours`: List of bin colours (e.g. `["Black", "Green"]`).
-*   `raw_bins`: Detailed list of dictionaries.
+*   `raw_bins`: Detailed list of dictionaries, including `name`, `colour`, `type`, and `keys`.
 
 ### Data Refresh
 The integration automatically refreshes your bin collection data every **12 hours**.
