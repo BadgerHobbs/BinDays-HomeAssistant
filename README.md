@@ -112,10 +112,12 @@ content: >
 type: markdown
 content: >
   ### Upcoming Collections
-  {% for event in state_attr('sensor.collection_schedule', 'upcoming_collections') %}
+
+  {% for event in state_attr('sensor.collection_schedule','upcoming_collections') %}
+  <br/>
   **{{ as_timestamp(event.date) | timestamp_custom('%A, %d %b') }}**
   {% for bin in event.bins %}
-  - {{ bin.name }} ({{ bin.colour }})
+  <br/>- {{ bin.name }} ({{ bin.colour }})
   {% endfor %}
   <br/>
   {% endfor %}
