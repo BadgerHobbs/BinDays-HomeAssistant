@@ -18,8 +18,8 @@ class Collector(BaseModel):
     name: str = Field(description="Name of the council")
     """Name of the council."""
 
-    key: Optional[str] = Field(default=None, description="Internal key")
-    """Internal key."""
-
-    url: Optional[str] = Field(default=None, description="Website URL")
+    website_url: Optional[str] = Field(default=None, alias="websiteUrl", description="Website URL")
     """Website URL."""
+
+    gov_uk_url: Optional[str] = Field(default=None, alias="govUkUrl", description="Gov.uk URL")
+    """Gov.uk URL."""

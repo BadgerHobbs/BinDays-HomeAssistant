@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 
 # Internal Packages
 from .bin import Bin
+from .address import Address
 
 
 class BinDay(BaseModel):
@@ -18,6 +19,9 @@ class BinDay(BaseModel):
 
     date_str: str = Field(alias="date", description="The date of collection as a string")
     """The date of collection as a string."""
+
+    address: Address = Field(description="Address for the bin day")
+    """Address for the bin day."""
 
     bins: List[Bin] = Field(default_factory=list, description="List of bins being collected")
     """List of bins being collected."""

@@ -54,7 +54,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             # Reconstruct minimal objects required by the API client
             # The API client expects typed Collector and Address objects
             collector = Collector(
-                govUkId=collector_id, name="Stored Collector", key=None, url=None
+                govUkId=collector_id,
+                name="Stored Collector",
+                websiteUrl=None,
+                govUkUrl=None,
             )
             address = Address(
                 uid=address_id,

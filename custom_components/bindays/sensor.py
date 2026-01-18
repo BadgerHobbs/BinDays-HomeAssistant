@@ -81,7 +81,10 @@ class NextCollectionSensor(CoordinatorEntity, SensorEntity):
         bin_colours = [b.colour for b in bins]
 
         # We can also return raw dictionary structure for template flexibility
-        raw_bins = [{"name": b.name, "colour": b.colour} for b in bins]
+        raw_bins = [
+            {"name": b.name, "colour": b.colour, "type": b.type, "keys": b.keys}
+            for b in bins
+        ]
 
         return {
             "bins": bin_names,
