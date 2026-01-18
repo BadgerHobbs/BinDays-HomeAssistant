@@ -171,6 +171,8 @@ If you find this project helpful, please consider supporting its development.
 
 <img width="1920" height="927" alt="image" src="https://github.com/user-attachments/assets/dd520dd4-ca84-4cd1-88bb-9cf34dd581d7" />
 
-### Example Dashboard Card
+### Example Dashboard Cards
 
-<img width="1920" height="927" alt="image" src="https://github.com/user-attachments/assets/8420bf34-5b77-4a5c-9009-3e0b94a52f5d" />
+<img width="1920" height="927" alt="image" src="https://github.com/user-attachments/assets/b65070bd-9d1e-4e9e-934a-234de19356a0" />
+
+
