@@ -20,6 +20,7 @@ This is the repository for the BinDays Home Assistant integration, fetching your
 ## Features
 
 *   **Next Collection Sensor:** Shows the date of the upcoming bin collection.
+*   **Collection Schedule Sensor:** Provides a full list of all upcoming bin collection dates and their associated bins.
 *   **Detailed Attributes:** Provides specific bin names, their colours, and raw collection data.
 *   **Smart Config Flow:** Simple setup via the Home Assistant UI with automatic council detection and confirmation.
 *   **Manual Override:** Option to manually select your council if the automatic matching is incorrect.
@@ -63,8 +64,9 @@ This is the repository for the BinDays Home Assistant integration, fetching your
 
 ## Usage
 
-The primary entity is `sensor.next_collection` (or similar, based on your address).
+The integration provides two main sensors:
 
+### 1. Next Collection Sensor (`sensor.next_collection`)
 **State:** The date of the next collection (YYYY-MM-DD).
 
 **Attributes:**
@@ -72,11 +74,20 @@ The primary entity is `sensor.next_collection` (or similar, based on your addres
 *   `colours`: List of bin colours (e.g. `["Black", "Green"]`).
 *   `raw_bins`: Detailed list of dictionaries, including `name`, `colour`, `type`, and `keys`.
 
+### 2. Collection Schedule Sensor (`sensor.collection_schedule`)
+**State:** The number of upcoming collections currently in the schedule.
+
+**Attributes:**
+*   `upcoming_collections`: A list of upcoming collection events. Each event contains:
+    *   `date`: The ISO formatted date of the collection.
+    *   `bins`: A list of bins for that date (with `name`, `colour`, `type`, and `keys`).
+
 ### Data Refresh
 The integration automatically refreshes your bin collection data every **12 hours**.
 
-### Example Dashboard Card
+### Example Dashboard Cards
 
+#### Next Collection Summary
 ```yaml
 type: markdown
 content: >
@@ -86,6 +97,20 @@ content: >
   **Bins:**
   {% for raw_bin in state_attr('sensor.next_collection', 'raw_bins') %}
   <br/>- {{ raw_bin['name'] }} ({{ raw_bin['colour'] }})
+  {% endfor %}
+```
+
+#### Full Collection Schedule
+```yaml
+type: markdown
+content: >
+  ### Upcoming Collections
+  {% for event in state_attr('sensor.collection_schedule', 'upcoming_collections') %}
+  **{{ as_timestamp(event.date) | timestamp_custom('%A, %d %b') }}**
+  {% for bin in event.bins %}
+  - {{ bin.name }} ({{ bin.colour }})
+  {% endfor %}
+  <br/>
   {% endfor %}
 ```
 
